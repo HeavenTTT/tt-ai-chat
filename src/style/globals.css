@@ -18,6 +18,7 @@
 }
 
 body {
+  font-size: 1rem;
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
@@ -43,4 +44,10 @@ body {
 .Kirby:hover {
   transform: scale(0.95);
   transition: transform 0.3s ease-in-out;
+}
+.Kirby-text {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0 0 12px rgba(255, 105, 180, 1);
 }

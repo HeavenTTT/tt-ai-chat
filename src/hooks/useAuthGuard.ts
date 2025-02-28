@@ -1,21 +1,65 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export function useAuthGuard() {
   const router = useRouter();
-  const [isVerified, setIsVerified] = useState<boolean | null>(null);
+  const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [isChecking, setIsChecking] = useState<boolean>(true);
+  const [currentQuestion, setCurrentQuestion] = useState<string | null>(null);
 
   useEffect(() => {
-    const verified = localStorage.getItem("passwordVerified");
+    async function checkAuth() {
+      const verified = localStorage.getItem("passwordVerified") === "true";
+      if (verified) {
+        setIsVerified(true);
+        setIsChecking(false);
+        return;
+      }
 
-    if (!verified) {
-      router.replace("/password"); // 未验证，跳转到密码页面
-    } else {
-      setIsVerified(true); // 已验证
+      try {
+        const response = await fetch("/api/questions");
+        if (!response.ok) throw new Error("获取问题失败");
+        const data = await response.json();
+        const questionList = data.map((q: { question: string }) => q.question);
+
+        if (questionList.length > 0) {
+          const today = new Date().getDate();
+          setCurrentQuestion(questionList[today % questionList.length]);
+        }
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      } finally {
+        setIsChecking(false);
+      }
     }
-  }, [router]);
 
-  return isVerified; // 返回验证状态
+    checkAuth();
+  }, []);
+
+  const verifyPassword = async (password: string) => {
+    if (!currentQuestion) return false;
+
+    try {
+      const response = await fetch("/api/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: currentQuestion, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem("passwordVerified", "true");
+        setIsVerified(true);
+        router.replace("/main");
+      }
+
+      return data.success;
+    } catch (error) {
+      console.error("Error verifying password:", error);
+      return false;
+    }
+  };
+
+  return { isVerified, isChecking, currentQuestion, verifyPassword };
 }

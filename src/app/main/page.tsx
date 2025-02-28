@@ -1,17 +1,28 @@
 "use client";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
-import { KirbyIcon } from "@/components/Kirby"; 
-
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { KirbyIcon } from "@/components/Kirby";
 
 export default function Main() {
-    const isVerified = useAuthGuard();
+  const { isVerified, isChecking } = useAuthGuard();
+  const router = useRouter();
 
-  if (isVerified === null) {
-    return <KirbyIcon/>; // 避免闪屏
+  useEffect(() => {
+    if (!isChecking) {
+      if (isVerified) {
+        router.replace("/main");
+      } else {
+        router.replace("/password");
+      }
+    }
+  }, [isVerified, isChecking, router]);
+  if (isChecking || !isVerified) {
+    return <KirbyIcon />;
   }
   return (
     <div className="">
-      <main className="">111</main>
+      <main className="">114514</main>
       <footer className=""></footer>
     </div>
   );
