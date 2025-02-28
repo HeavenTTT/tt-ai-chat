@@ -22,3 +22,25 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.Kirby {
+  display: flex;
+  justify-content: center;  /* 水平居中 */
+  align-items: center;      /* 垂直居中 */
+  height: 100vh;            /* 让父级容器铺满整个视口高度 */
+  flex-direction: column;
+}
+.Kirby-body
+{
+  fill:#ffb6c1;
+}
+/* 让 Kirby SVG 图标保持适当大小 */
+.Kirby svg {
+  height: 20%;
+  width: auto;
+
+}
+.Kirby:hover {
+  transform: scale(0.95);
+  transition: transform 0.3s ease-in-out;
+}
