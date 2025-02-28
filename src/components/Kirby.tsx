@@ -2,9 +2,9 @@ import React from "react";
 
 export function KirbyIcon() {
   return (
-    <div className="Kirby"> 
+    <div className="Kirby">
       <Kirby />
-      <p className="Kirby-text"> Hello, I'm Kirby! ⭐</p>
+      <p className="Kirby-text"> Hello, I&apos;m Kirby! ⭐</p>
     </div>
   );
 }
@@ -23,16 +23,11 @@ const Kirby = () => {
       <ellipse cx="130" cy="160" rx="30" ry="15" fill="#cc3333" />
 
       {/* 左手（粉色椭圆） */}
-      <ellipse cx="50" cy="120" rx="20" ry="20" className="Kirby-body"/>
+      <ellipse cx="50" cy="120" rx="20" ry="20" className="Kirby-body" />
       {/* 右手（粉色椭圆）） */}
-      <ellipse cx="150" cy="120" rx="20" ry="20" className="Kirby-body"/>
+      <ellipse cx="150" cy="120" rx="20" ry="20" className="Kirby-body" />
       {/* 身体（粉色圆形） */}
-      <circle
-        cx="100"
-        cy="110"
-        r="60"
-        className="Kirby-body"
-      />
+      <circle cx="100" cy="110" r="60" className="Kirby-body" />
 
       {/* 左眼（眼蓝色椭圆） */}
       <ellipse cx="80" cy="90" rx="10" ry="22" fill="blue" />
@@ -78,7 +73,6 @@ const Kirby = () => {
         fill="transparent"
       />
     </svg>
-    
   );
 };
 
