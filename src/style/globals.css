@@ -1,45 +1,59 @@
 @import "tailwindcss";
 
-@theme {
+:root {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root[data-theme="dark"] {
+  --background-start: #000005;
+  --background-end: #dddddf;
+  --foreground: #fff;
+  --background:#333;
+  --backgroud-rgba:#3335;
+  --btn-background-rgba: #fff3;
+}
+:root[data-theme="light"] {
+  --background-start: rgb(175,239,255);
+  --background-end: #fff;
+  --foreground: #000;
+  --background:#fff;
+  --backgroud-rgba:#fff5;
+  --btn-background-rgba: #aef3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background-start: var(--background-start);
+    --background-end:var(--background-end);
+    --foreground: var(--foreground);
   }
 }
-
 body {
   font-size: 1rem;
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(
+    to top,
+    var(--background-start),
+    var(--background-end)
+  );
 }
 
+/*卡比*/
 .Kirby {
   display: flex;
-  justify-content: center;  /* 水平居中 */
-  align-items: center;      /* 垂直居中 */
-  height: 100vh;            /* 让父级容器铺满整个视口高度 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  height: 100vh; /* 让父级容器铺满整个视口高度 */
   flex-direction: column;
 }
-.Kirby-body
-{
-  fill:#ffb6c1;
+.Kirby-body {
+  fill: #ffb6c1;
 }
 /* 让 Kirby SVG 图标保持适当大小 */
 .Kirby svg {
   height: 20%;
   width: auto;
-
 }
 .Kirby:hover {
   transform: scale(0.95);
@@ -51,3 +65,13 @@ body {
   font-weight: bold;
   text-shadow: 0 0 12px rgba(255, 105, 180, 1);
 }
+
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+

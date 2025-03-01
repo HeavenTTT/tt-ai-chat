@@ -51,7 +51,7 @@ export function useAuthGuard() {
       if (data.success) {
         localStorage.setItem("passwordVerified", "true");
         setIsVerified(true);
-        router.replace("/main");
+        router.replace("/");
       }
 
       return data.success;

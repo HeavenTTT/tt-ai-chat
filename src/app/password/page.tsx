@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { useRouter } from "next/navigation";
 import { KirbyIcon } from "@/components/Kirby";
-import { MdSubdirectoryArrowLeft, } from "react-icons/md";
 import "@/style/password.css";
 
 export default function PasswordPage() {
@@ -15,7 +14,7 @@ export default function PasswordPage() {
 
   useEffect(() => {
     if (!isChecking && isVerified) {
-      router.replace("/main"); // 只在验证完成后跳转
+      router.replace("/"); // 只在验证完成后跳转
     }
   }, [isVerified, isChecking, router]);
 
@@ -35,8 +34,7 @@ export default function PasswordPage() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder={currentQuestion || "请输入密码"}
         />
-        <button className="verify-button" onClick={handleVerifyPassword}>
-        <MdSubdirectoryArrowLeft/>
+        <button className="verify-button" onClick={handleVerifyPassword}> 🥔
         </button>
       </div>
     </div>
