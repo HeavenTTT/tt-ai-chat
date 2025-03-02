@@ -1,7 +1,7 @@
 // Code Generated with SimpleCodeGenerator: https://www.npmjs.com/package/simple-code-generator
 "use client";
 import { useAuthGuard } from "@/hooks/useAuthGuard"; // 验证
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { KirbyIcon } from "@/components/Kirby";
 import { useTheme } from "@/context/ThemeContext";
@@ -15,7 +15,7 @@ export default function Main() {
   const router = useRouter(); /// 路由
   const { theme, toggleTheme } = useTheme(); /// 主题
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); /// 侧边栏
-  /// 重定向
+  /// 触屏侧边栏
   useEffect(() => {
     if (!isChecking) {
       if (isVerified) {
@@ -25,16 +25,19 @@ export default function Main() {
       }
     }
   }, [isVerified, isChecking, router]);
-  let touchStartX = 0;
-  let touchEndX = 0;
+
+  ///触屏侧边栏
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
   useEffect(() => {
+
     const handleTouchStart = (e: TouchEvent) => {
-      touchStartX = e.touches[0].clientX;
+      touchStartX.current = e.touches[0].clientX;
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
-      touchEndX = e.changedTouches[0].clientX;
-      const swipeDistance = touchEndX - touchStartX;
+      touchEndX.current = e.changedTouches[0].clientX;
+      const swipeDistance = touchEndX.current - touchStartX.current;
 
       if (swipeDistance < -50) {
         // 左滑：关闭侧边栏
@@ -46,7 +49,6 @@ export default function Main() {
       } 
         */
     };
-
     document.addEventListener("touchstart", handleTouchStart);
     document.addEventListener("touchend", handleTouchEnd);
 
@@ -56,10 +58,9 @@ export default function Main() {
     };
   }, []);
 
-
-
-  ///页面控制----
+  /// 路由
   /// 加载中
+  ///
   if (isChecking || !isVerified) {
     return (
       <div className="home-container">
@@ -70,36 +71,25 @@ export default function Main() {
   /// 页面
   return (
     <main className="main-container">
-     
       {/* 侧边栏 */}
-      <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-      <button
-        className="toggle-btn"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        {!isSidebarOpen ? <AlignLeft /> : <X />}
-      </button>
-        <nav>
-          <ul>
-            <li>
-              <a href="#">首页</a>
-            </li>
-            <li>
-              <a href="#">设置</a>
-            </li>
-            <li>
-              <a href="#">关于</a>
-            </li>
-          </ul>
-        </nav>
-      </aside>
+      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+        {/*  侧边栏内容 */ }
+        <button
+          className="toggle-btn"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {!isSidebarOpen ? <AlignLeft /> : <X />}
+        </button>
 
-      <section className="content">
+
+      </div>
+      {/* 主内容 */}
+      <div className="content">
         <h1>欢迎来到 Main 页面</h1>
         <button onClick={toggleTheme}>
           切换到 {theme === "light" ? "暗色" : "亮色"}
         </button>
-      </section>
+      </div>
       <footer className="hidden">What are you looking for?</footer>
     </main>
   );
